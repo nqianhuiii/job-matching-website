@@ -1,1 +1,1 @@
-# jjwq-jmp
+# JJWQ Job Matching Platform

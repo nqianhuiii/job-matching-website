@@ -1,0 +1,21 @@
+.sdg p{
+    font-weight: 500;
+    font-size: 10px;
+    font-style: italic;
+    justify-content: space-between;
+    margin: 10px 400px;
+    color: white;
+}
+
+.sdg img{
+    margin: 50px;
+}
+
+.org_chart{
+    color: white;
+}
+
+.org_chart h4{
+    margin: 100px;
+    text-align: center;
+}
