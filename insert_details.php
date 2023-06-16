@@ -1,8 +1,41 @@
 <?php
-if (isset($_GET['submitted']) && $_GET['submitted'] === 'true') {
-    echo '<script>alert("Form submitted successfully.");</script>';
+// Establish a database connection
+include('database/connectdb.php');
+if (!$con) {
+    die('Could not connect: ' . mysqli_connect_error());
 }
+
+// Process form submission
+if (isset($_POST["userID"], $_POST["companyName"], $_POST["industryType"])) {
+    $userID = $_POST["userID"];
+    $companyName = $_POST["companyName"];
+    $industryType = $_POST["industryType"];
+   
+
+    // Escape the user input to prevent SQL injection
+    $userID = mysqli_real_escape_string($con, $userID);
+    $companyName = mysqli_real_escape_string($con, $companyName);
+    $industryType = mysqli_real_escape_string($con, $industryType);
+
+    // Insert employer details into the database
+    $sql = "INSERT INTO employer (userID, companyName, industryType) VALUES ('$userID', '$companyName', '$industryType')";
+
+    if (mysqli_query($con, $sql)) {
+        // Get the employer ID of the newly inserted record
+        $employerID = mysqli_insert_id($con);
+
+        // Redirect to the employer page
+        header("Location: employer.php?employerID=$employerID");
+        exit();
+    } else {
+        echo "Error: " . mysqli_error($con);
+    }
+
+}
+// Close the database connection
+mysqli_close($con);
 ?>
+
 <html lang="en">
 
 <head>
@@ -43,24 +76,15 @@ if (isset($_GET['submitted']) && $_GET['submitted'] === 'true') {
 
   <section class="main">
     <div class="container">
-      <form id="contact-form" action="../database/contact_form.php" method="post">
+      <form id="emp" action="<?php echo $_SERVER["PHP_SELF"]; ?>"method="post">
+        <h3>Fill in The Following Details.....</h3>
+       <input type="hidden" name="userID" value="1"> <!-- Assuming a user with ID 1 is already logged in, you can change this based on your authentication system -->
 
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" placeholder="Your name.." required>
+        <label for="companyName">Company Name:</label>
+        <input type="text" name="companyName" id="companyName" required><br><br>
 
-        <label for="phone">Contact Number</label>
-        <input type="telephone" id="phone" name="phone" placeholder="+(60)" required>
-
-        <label for="email">Email</label>
-        <input type="text" id="email" name="email" placeholder="abc@gmail.com" required>
-        <p id="email-error" style="display: none; color: red;">Invalid email format</p>
-
-        <label for="subject">Subject</label>
-        <input type="text" id="subject" name="subject" placeholder="What'd you like to tell ?" required>
-
-        <label for="description">Description</label>
-        <textarea id="description" name="description" placeholder="Write something.." style="height:100px"
-          required></textarea>
+        <label for="industryType">Industry Type:</label>
+        <input type="text" name="industryType" id="industryType" required><br><br>
 
         <input type="submit" value="Submit"></input>
 
@@ -88,51 +112,7 @@ if (isset($_GET['submitted']) && $_GET['submitted'] === 'true') {
     </div>
   </section>
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const emailInput = document.getElementById("email");
-    const emailErrorMessage = document.getElementById("email-error");
-
-    emailInput.addEventListener("blur", function() {
-      const emailValue = emailInput.value;
-
-      // Validate email format
-      if (!validateEmail(emailValue)) {
-        emailErrorMessage.style.display = "block";
-      } else {
-        emailErrorMessage.style.display = "none";
-      }
-    });
-
-    document.getElementById("contact-form").addEventListener("submit", function(event) {
-      const emailValue = emailInput.value;
-
-      // Validate email format
-      if (!validateEmail(emailValue)) {
-        emailErrorMessage.style.display = "block";
-        event.preventDefault(); // Prevent form submission
-      } else {
-        emailErrorMessage.style.display = "none";
-      }
-    });
-
-    function validateEmail(email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return emailRegex.test(email);
-    }
-
-      const phoneInput = document.getElementById("phone");
-      phoneInput.addEventListener("input", function () {
-        const phoneValue = phoneInput.value;
-        const formattedPhoneValue = formatPhoneNumber(phoneValue);
-        phoneInput.value = formattedPhoneValue;
-      });
-
-      function formatPhoneNumber(phoneNumber) {
-        // Remove all non-numeric characters from the input
-        const formattedNumber = phoneNumber.replace(/\D/g, "");
-        return formattedNumber;
-      }
-    });
+    
   </script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
     integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
