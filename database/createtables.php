@@ -49,10 +49,10 @@ $sql4 = "CREATE TABLE postJobs (
     employerID INT,
     applicationID INT,
     jobTitle VARCHAR(255),
-    companyName VARCHAR(255),
+    company VARCHAR(255),
     salaryRange VARCHAR(255),
     typeOfOffer VARCHAR(255),
-    Description varchar(300),
+    description varchar(600),
     FOREIGN KEY (employerID) REFERENCES Employer(employerID)
 )";
 mysqli_query($con, $sql4);

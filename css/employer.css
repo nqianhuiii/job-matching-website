@@ -2,6 +2,13 @@ body {
   font-family: 'Poppins', sans-serif;
   background-color: #f1f1f1;
 }
+
+.navbar {
+  background-color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .container {
   max-width: 600px;
   margin: 50px auto;
@@ -28,6 +35,30 @@ p {
   margin-bottom: 10px;
   font-size: 16px;
   color: #555;
+}
+
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+  border: 3px solid #ccc;
+  margin-bottom: 20px;
+}
+.social-media {
+  margin: 20px 0;
+}
+
+.social-media a {
+  display: inline-block;
+  margin-right: 10px;
+  font-size: 24px;
+  color: #333;
+}
+
+.social-media a:hover {
+  color: #007bff;
 }
 
 .button-group {

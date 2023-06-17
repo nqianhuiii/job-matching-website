@@ -15,86 +15,9 @@
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/4.7.0/css/bootstrap-combined.no-icons.min.css"
     rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
- <!-- <link rel="stylesheet" href="css/managejob.css">-->
-  <style>
-    /* Container Styling */
+ <link rel="stylesheet" href="css/manage_post_job.css">
+  
 
-     body{
-        background-color: lightblue;
-     }
-    .container {
-        background-color: #f1f1f1;
-        padding: 20px;
-        margin-top: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Heading Styling */
-    .heading {
-        text-align: center;
-        margin-bottom: 20px;
-        font-size: 24px;
-        color: #333;
-    }
-
-    /* Table Container Styling */
-    .table-container {
-        overflow-x: auto;
-    }
-
-    /* Table Styling */
-    .job-post-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-    }
-
-    .job-post-table th,
-    .job-post-table td {
-        padding: 15px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-        background-color: #fff;
-    }
-
-    .job-post-table th {
-        background-color: #f2f2f2;
-    }
-
-    .job-post-table tbody tr:last-child td {
-        border-bottom: none;
-    }
-
-    /* Button Styling */
-    .btn {
-        display: inline-block;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        background-color: #4CAF50;
-        color: #fff;
-        border: none;
-        border-radius: 30px;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn-primary {
-        background-color: #007bff;
-    }
-
-    .btn-danger {
-        background-color: #dc3545;
-    }
-
-    .btn:hover {
-        background-color: #555;
-    }
-
-    /* Other CSS styles */
-    /* ... */
 </style>
 
 </head>
@@ -138,20 +61,23 @@ if ($result->num_rows > 0) {
     echo "<h1 class='heading'>Manage Job Posts</h1>";
     echo "<div class='table-container'>";
     echo "<table class='job-post-table'>";
-    echo "<thead><tr><th>Job Title</th><th>Salary Range</th><th>Type Offer</th><th>Action</th></tr></thead>";
+    echo "<thead><tr><th>Job Title</th><th>Company</th><th>Salary Range</th><th>Type Offer</th><th>Description</th><th>Action</th></tr></thead>";
     echo "<tbody>";
 
     while ($row = mysqli_fetch_assoc($result)) {
         $postID = $row["postID"];
         $jobTitle = $row["jobTitle"];
+        $company = $row["company"];
         $salaryRange = $row["salaryRange"];
         $typeOfOffer = $row["typeOfOffer"];
+        $description = $row["description"];
 
         echo "<tr>";
         echo "<td>$jobTitle</td>";
+        echo "<td>$company</td>";
         echo "<td>$salaryRange</td>";
         echo "<td>$typeOfOffer</td>";
-
+        echo "<td>$description</td>";
         echo "<td><a href='edit_post_job.php?postID=$postID&employerID=$employerID' class='btn btn-primary'>Edit</a> <a href='delete_post_job.php?postID=$postID&employerID=$employerID' class='btn btn-danger'>Delete</a></td>";
         echo "</tr>";
     }
@@ -162,10 +88,15 @@ if ($result->num_rows > 0) {
     echo "</div>";
     echo "</div>";
 
+
 }
 
 mysqli_close($con);
 ?>
+<!-- Add a button to go back to the employer profile page -->
+<div class="container mt-4">
+    <a href="employer.php?employerID=<?php echo $employerID; ?>" class="btn btn-secondary">Back to Employer Profile</a>
+</div>
 
 </body>
 </html>

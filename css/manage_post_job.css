@@ -1,13 +1,12 @@
-
-/* Container Styling */
+body{
+    background-color: lightblue;
+ }
 .container {
-    border-radius: 5px;
-    background-color: #a99d9d;
+    background-color: #f1f1f1;
     padding: 20px;
-    margin: 20px;
-    width: 500px;
-    font-size: 11px;
-    display: inline-block;
+    margin-top: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Heading Styling */
@@ -72,6 +71,5 @@
 .btn:hover {
     background-color: #555;
 }
-
 
 

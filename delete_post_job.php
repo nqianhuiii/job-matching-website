@@ -3,13 +3,12 @@
 include('database/connectdb.php');
 
 if (!$con) {
-
     die('Could not connect: ' . mysqli_connect_error());
-
 }
 
-// Get the post ID from the query string
+// Get the post ID and employer ID from the query string
 $postID = $_GET["postID"];
+$employerID = $_GET["employerID"];
 
 // Delete the job post from the database
 $sql = "DELETE FROM postJobs WHERE postID = '$postID'";
@@ -19,8 +18,7 @@ if (mysqli_query($con, $sql) === TRUE) {
     header("Location: manage_posts_job.php?employerID=$employerID");
     exit();
 } else {
-    echo "Error deleting record: " . mysqli_connect_error($con);
-
+    echo "Error deleting record: " . mysqli_error($con);
 }
 
 // Close the database connection

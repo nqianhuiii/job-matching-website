@@ -16,7 +16,7 @@ body{
     padding: 20px;
     margin: 20px;
     width: 500px;
-    font-size: 11px;
+    font-size: 15px;
     display: inline-block;
 
   }
@@ -57,7 +57,7 @@ label {
     margin: 20px;
     display: inline-block;
   }
-  .container1 h3{
+.container1 h3{
     font-size: 20px;
     padding-bottom:20px ;
 }
@@ -67,3 +67,12 @@ label {
     font-size: 15px;
     padding: 15px;
 }
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #dbd9d9;
+  }
+

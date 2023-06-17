@@ -41,95 +41,13 @@ mysqli_close($con);
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;1,100;1,400&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;1,100;1,400&display=swap"
         rel="stylesheet">
+    <<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-xr7kw9MYXcvCkA4Di9vxeQRTeNPf2Gxlckv3Y/ksRo3bh2HGG1gIeVKb4b1rIvPkJpF1rDHyZMxQMXgmfjS0iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
     <link rel="stylesheet" href="css/employer.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f1f1f1;
-        }
-
-        .navbar {
-            background-color: #fff;
-            padding: 10px 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #007bff;
-            font-size: 28px;
-        }
-
-        h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            color: #555;
-        }
-
-        p {
-            margin-bottom: 10px;
-            font-size: 16px;
-            color: #555;
-        }
-
-        .profile-picture {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 0 auto;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        .social-media {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .social-media a {
-            display: inline-block;
-            margin: 0 10px;
-            font-size: 20px;
-            color: #007bff;
-        }
-
-        .button-group {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            border-color: #28a745;
-        }
-
-        .btn-success:hover {
-            background-color: #1e7e34;
-            border-color: #1e7e34;
-        }
-    </style>
 </head>
 
 <body>
@@ -149,9 +67,9 @@ mysqli_close($con);
     </nav>
     <div class="container">
         <h1>Employer Profile</h1>
-    
+
         <form method="post" action="update_profile.php" enctype="multipart/form-data">
-        <input type="hidden" name="employerID" value="<?php echo $employerID; ?>">
+            <input type="hidden" name="employerID" value="<?php echo $employerID; ?>">
             <div class="form-group">
                 <label for="profilePicture">Profile Picture:</label>
                 <input type="file" class="form-control-file" id="profilePicture" name="profilePicture">
@@ -159,21 +77,27 @@ mysqli_close($con);
 
             <div class="form-group">
                 <label for="companyName">Company Name:</label>
-                <input type="text" class="form-control" id="companyName" name="companyName" value="<?php echo $companyName; ?>">
+                <input type="text" class="form-control" id="companyName" name="companyName"
+                    value="<?php echo $companyName; ?>">
             </div>
 
             <div class="form-group">
                 <label for="industryType">Industry Type:</label>
-                <input type="text" class="form-control" id="industryType" name="industryType" value="<?php echo $industryType; ?>">
+                <input type="text" class="form-control" id="industryType" name="industryType"
+                    value="<?php echo $industryType; ?>">
             </div>
 
             <div class="button-group">
-            <a href="update_profile.php?employerID=<?php echo $employerID; ?>">Edit Profile</a>
+                <a href="update_profile.php?employerID=<?php echo $employerID; ?>">Edit Profile</a>
             </div>
         </form>
 
-        <p>Company Name: <?php echo $companyName; ?></p>
-        <p>Industry Type: <?php echo $industryType; ?></p>
+        <p>Company Name:
+            <?php echo $companyName; ?>
+        </p>
+        <p>Industry Type:
+            <?php echo $industryType; ?>
+        </p>
 
         <div class="social-media">
             <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
@@ -183,12 +107,14 @@ mysqli_close($con);
         </div>
 
         <div class="button-group">
-            <a href="manage_posts_job.php?employerID=<?php echo $employerID; ?>" class="btn btn-primary">Manage Post Jobs</a>
+            <a href="manage_posts_job.php?employerID=<?php echo $employerID; ?>" class="btn btn-primary">Manage Post
+                Jobs</a>
             <a href="postjob.php?employerID=<?php echo $employerID; ?>" class="btn btn-success">Post Job</a>
         </div>
     </div>
 
-
+    <<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" integrity="sha512-tfB2QZbrKQoLckwSFAaz7kH63vJy8VRWjGJTK3kx/yWj3YbR1F1eCEl/4jNRwRPMLpPXPwGnWwrY14tvFeIsow==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
