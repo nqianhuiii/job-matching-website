@@ -1,0 +1,17 @@
+<?php
+    include("connectdb.php");
+
+    mysqli_select_db($con, "jjwq");
+
+    $salt= "nBigi6%$^&RW9ma";
+    $password= sha1($_POST['password']. $salt);
+
+    $sql= "INSERT INTO User(username, password, email, type, contactNo)
+            VALUES ('$_POST[username]', '$password', '$_POST[email]', '$_POST[type]',  '$_POST[phoneNo]')";
+
+    if(!mysqli_query($con, $sql)){
+        die('Error'.mysqli_connect_error());
+    }
+
+    mysqli_close($con);
+?>
