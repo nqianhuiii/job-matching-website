@@ -27,8 +27,8 @@ if ($result->num_rows > 0) {
     $typeOfOffer = $row["typeOfOffer"];
     $description = $row["description"];
 } else {
-    // Job post not found
-    die("Job post not found");
+    // Job post not found or no value in the table
+    $errorMessage = "No job post found or no value in the table.";
 }
 
 // Process form submission
@@ -68,24 +68,28 @@ $con->close();
 <div class="container">
     <h1>Edit Job Post</h1>
 
-    <form method="post" action="<?php echo $_SERVER["PHP_SELF"] . '?postID=' . $postID; ?>">
-        <label for="jobTitle">Job Title:</label>
-        <input type="text" name="jobTitle" id="jobTitle" value="<?php echo $jobTitle; ?>" required><br><br>
+    <?php if (isset($errorMessage)) { ?>
+        <p><?php echo $errorMessage; ?></p>
+    <?php } else { ?>
+        <form method="post" action="<?php echo $_SERVER["PHP_SELF"] . '?postID=' . $postID; ?>">
+            <label for="jobTitle">Job Title:</label>
+            <input type="text" name="jobTitle" id="jobTitle" value="<?php echo $jobTitle; ?>" required><br><br>
 
-        <label for="company">Company:</label>
-        <input type="text" name="company" id="company" value="<?php echo $company; ?>" required><br><br>
+            <label for="company">Company:</label>
+            <input type="text" name="company" id="company" value="<?php echo $company; ?>" required><br><br>
 
-        <label for="salaryRange">Salary Range:</label>
-        <input type="text" name="salaryRange" id="salaryRange" value="<?php echo $salaryRange; ?>" required><br><br>
+            <label for="salaryRange">Salary Range:</label>
+            <input type="text" name="salaryRange" id="salaryRange" value="<?php echo $salaryRange; ?>" required><br><br>
 
-        <label for="typeOfOffer">Type of Offer:</label>
-        <input type="text" name="typeOfOffer" id="typeOfOffer" value="<?php echo $typeOfOffer; ?>" required><br><br>
+            <label for="typeOfOffer">Type of Offer:</label>
+            <input type="text" name="typeOfOffer" id="typeOfOffer" value="<?php echo $typeOfOffer; ?>" required><br><br>
 
-        <label for="description">Description:</label>
-        <textarea name="description" id="description" required><?php echo $description; ?></textarea><br><br>
+            <label for="description">Description:</label>
+            <textarea name="description" id="description" required><?php echo $description; ?></textarea><br><br>
 
-        <input type="submit" value="Update Job Post">
-    </form>
+            <input type="submit" value="Update Job Post">
+        </form>
+    <?php } ?>
 </div>
 <script>
     // Function to validate the form before submission
@@ -111,4 +115,3 @@ $con->close();
 </script>
 </body>
 </html>
-

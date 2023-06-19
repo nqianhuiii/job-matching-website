@@ -40,9 +40,9 @@
 
     <?php
 // Get the employer ID from the query string
-$employerID = $_GET["employerID"]; 
+$employerID = $_GET["employerID"];
 // Fetch job posts from the database for the specified employer
-// Assuming you have a table named 'posts' with columns such as 'jobTitle' and 'salaryRange'
+// Assuming you have a table named 'postJobs' with columns such as 'jobTitle' and 'salaryRange'
 // Modify the query and table structure based on your actual setup
 include('database/connectdb.php');
 
@@ -56,7 +56,7 @@ $result = mysqli_query($con, $sql);
 // Check if any job posts were found
 if ($result->num_rows > 0) {
     // Job posts found, display them in a table
-    echo"<div class='main'>";
+    echo "<div class='main'>";
     echo "<div class='container'>";
     echo "<h1 class='heading'>Manage Job Posts</h1>";
     echo "<div class='table-container'>";
@@ -87,8 +87,14 @@ if ($result->num_rows > 0) {
     echo "</div>";
     echo "</div>";
     echo "</div>";
-
-
+} else {
+    // No job posts found
+    echo "<div class='main'>";
+    echo "<div class='container'>";
+    echo "<h1 class='heading'>Manage Job Posts</h1>";
+    echo "<p>No job posts found.</p>";
+    echo "</div>";
+    echo "</div>";
 }
 
 mysqli_close($con);

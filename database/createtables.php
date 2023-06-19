@@ -40,6 +40,7 @@ $sql3= "CREATE TABLE Employer (
     userID INT,
     companyName VARCHAR(255),
     industryType VARCHAR(255),
+    profilePicture VARCHAR(255),
     FOREIGN KEY (userID) REFERENCES User(userID)
 )";
 mysqli_query($con, $sql3);
