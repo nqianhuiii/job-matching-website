@@ -1,0 +1,78 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+body{
+   background-color: lightblue;
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-attachment: fixed; 
+    font-family: 'Poppins', sans-serif;
+}
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    margin: 20px;
+    width: 500px;
+    font-size: 15px;
+    display: inline-block;
+
+  }
+.job-post-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+    border-color: #45a049;
+}
+
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #3d8b3d;
+    border-color: #3d8b3d;
+}
+.container1 {
+    border-radius: 5px;
+    box-shadow: 8px 8px;
+    background-color: #514f4f;
+    color: white;
+    padding: 20px;
+    margin: 20px;
+    display: inline-block;
+  }
+.container1 h3{
+    font-size: 20px;
+    padding-bottom:20px ;
+}
+
+.table-item td{
+    color: white;
+    font-size: 15px;
+    padding: 15px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #dbd9d9;
+  }
+

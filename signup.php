@@ -30,7 +30,7 @@
                                 <img src="image/signup.png" class="img-fluid" alt="Image">
                             </div>
                             <div class="col-md-6">
-                                <form action= "database/signup_form.php" method= "POST">
+                                <form action= "sql/signup_form.php" method= "POST">
                                     <input type="hidden" name="type" value="1">
                                     <div class="form-group">
                                         <label for="username">Username</label>

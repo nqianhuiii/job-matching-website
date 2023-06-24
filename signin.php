@@ -17,7 +17,7 @@
         </a>
         <div class="navbar-nav ml-auto">
             <span class="nav-item nav-link mr-3">Haven't Registered</span>
-            <button class="btn btn-outline-secondary ml-auto" type="button">Sign Up</button>
+            <button class="btn btn-outline-secondary ml-auto" type="button" onclick= "window.location.href='signup.php'">Sign Up</button>
         </div>
     </nav>
     <div class="container">
@@ -30,7 +30,7 @@
                                 <img src="image/signup.png" class="img-fluid" alt="Image">
                             </div>
                             <div class="col-md-6">
-                                <form action= "database/signin_form.php" method= "POST">
+                                <form action= "sql/signin_form.php" method= "POST">
                                     <input type="hidden" name="type" value="1">
                                     <div class="form-group">
                                         <label for="email">Email</label>
