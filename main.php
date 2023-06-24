@@ -24,7 +24,7 @@
               <a class="nav-item nav-link" href="about.php">About</a>
               <a class="nav-item nav-link" href="contact.php">Contact</a>
             </div>
-        <button class="btn btn-outline-secondary ml-auto" type="button">Sign Up</button>
+        <button class="btn btn-outline-secondary ml-auto" type="button" onclick="window.location.href='signup.php'">Sign Up</button>
     </nav>
 
     <div class="mainIntro">

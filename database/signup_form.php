@@ -1,4 +1,5 @@
 <?php
+
     include("connectdb.php");
 
     mysqli_select_db($con, "jjwq");
@@ -14,4 +15,7 @@
     }
 
     mysqli_close($con);
+
+    header("location: ../main.php");
+    exit();
 ?>
