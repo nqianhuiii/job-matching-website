@@ -10,7 +10,6 @@ if (isset($_POST["userID"], $_POST["companyName"], $_POST["industryType"])) {
     $userID = $_POST["userID"];
     $companyName = $_POST["companyName"];
     $industryType = $_POST["industryType"];
-   
 
     // Escape the user input to prevent SQL injection
     $userID = mysqli_real_escape_string($con, $userID);
