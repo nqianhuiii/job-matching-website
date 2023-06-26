@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $employerID = isset($_GET["employerID"]) ? $_GET["employerID"] : ""; // Get the employer ID from the query string
 
 // Fetch employer details from the database

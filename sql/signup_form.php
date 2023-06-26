@@ -1,6 +1,6 @@
 <?php
 
-    include("connectdb.php");
+    include("../database/connectdb.php");
 
     mysqli_select_db($con, "jjwq");
 

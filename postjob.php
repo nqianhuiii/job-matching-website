@@ -1,4 +1,5 @@
 <?php
+session_start();
 // Check if the employer ID is provided in the URL
 if (isset($_GET['employerID'])) {
   $employerID = $_GET['employerID'];

@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Establish a database connection
 include('database/connectdb.php');
 

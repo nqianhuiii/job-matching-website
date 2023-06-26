@@ -1,4 +1,9 @@
 <?php
+session_start(); // Start the session
+
+// Retrieve the user's information from session variables
+$email = $_SESSION['email'];
+
 $employerID = isset($_GET["employerID"]) ? $_GET["employerID"] : ""; // Get the employer ID from the query string
 
 // Fetch employer details from the database
@@ -28,7 +33,8 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 // Fetch user details for the employer from the user table
-$userID = 1; // Assuming the employer's user ID is 1 (change it according to your database structure)
+// $userID = 1; // Assuming the employer's user ID is 1 (change it according to your database structure)
+$userID = $_SESSION['userID'];
 $userSql = "SELECT username, email, contactNo FROM user WHERE userID = '$userID'";
 $userResult = mysqli_query($con, $userSql);
 
@@ -39,8 +45,10 @@ if (!$userResult) {
 if (mysqli_num_rows($userResult) > 0) {
     $userRow = mysqli_fetch_assoc($userResult);
     $username = $userRow["username"];
-    $email = $userRow["email"];
     $contactNo = $userRow["contactNo"];
+}else{
+    $username = "N/A";
+    $contactNo = "N/A";
 }
 
 mysqli_close($con);

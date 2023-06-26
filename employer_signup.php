@@ -1,4 +1,6 @@
 <?php
+
+session_start();
 // Establish a database connection
 include('database/connectdb.php');
 if (!$con) {
@@ -7,7 +9,7 @@ if (!$con) {
 
 // Process form submission
 if (isset($_POST["userID"], $_POST["companyName"], $_POST["industryType"])) {
-    $userID = $_POST["userID"];
+    $userID = $_SESSION['userID'];
     $companyName = $_POST["companyName"];
     $industryType = $_POST["industryType"];
 
@@ -52,8 +54,7 @@ mysqli_close($con);
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/4.7.0/css/bootstrap-combined.no-icons.min.css"
     rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-  <link rel="stylesheet" href="./css/contact.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="./css/employer_signup.css">
 
 </head>
 
@@ -64,52 +65,50 @@ mysqli_close($con);
       <img src="./image/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
       Job Finder
     </a>
-    <div class="navbar-nav">
-      <a class="nav-item nav-link " href="main.php">Home </a>
-      <a class="nav-item nav-link" href="#">Find A Job</a>
-      <a class="nav-item nav-link" href="about.php">About</a>
-      <a class="nav-item nav-link active" href="contact.php">Contact</a>
+    <div class="navbar-nav ml-auto">
+        <button class="btn btn-outline-secondary ml-auto" type="button" onclick= "window.location.href='sign_out.php'">Sign Out</button>
     </div>
-    <button class="btn btn-outline-secondary ml-auto" type="button">Sign Up</button>
   </nav>
 
   <section class="main">
-    <div class="container">
-      <form id="emp" action="<?php echo $_SERVER["PHP_SELF"]; ?>"method="post">
-        <h3>Fill in The Following Details.....</h3>
-       <input type="hidden" name="userID" value="1"> <!-- Assuming a user with ID 1 is already logged in, you can change this based on your authentication system -->
+  <div class="container custom-container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <img src="image/resume.jpg" class="img-fluid" alt="Photo">
+              </div>
+              <div class="col-md-6">
+                <!-- Right Section (Form) -->
+                <form id="emp" action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+                  <div class>  
+                    <h4><strong>Employer Company Sign Up</strong></h4>
+                    <p>Create your company account now</p>
+                  </div> 
+                  <input type="hidden" name="userID" value="1">
 
-        <label for="companyName">Company Name:</label>
-        <input type="text" name="companyName" id="companyName" required><br><br>
-
-        <label for="industryType">Industry Type:</label>
-        <input type="text" name="industryType" id="industryType" required><br><br>
-
-        <input type="submit" value="Submit"></input>
-
-      </form>
+                  <div>
+                    <label for="companyName">Company Name:</label>
+                    <input type="text" name="companyName" id="companyName" required><br><br>
+                  </div>
+                  <div>
+                    <label for="industryType">Industry Type:</label>
+                    <input type="text" name="industryType" id="industryType" required><br><br>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block btn-black">Submit</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="container1">
-      <h3>Contact Us!</h3>
-      <table class="table-item">
-        <tr>
-          <td style="width:30px;"><i class="fa fa-phone" aria-hidden="true"></i></td>
-          <td>+(60)12-345 6789</td>
-        </tr>
-        <tr>
-          <td><i class="fa fa-envelope" aria-hidden="true"></i></td>
-          <td>jjwq2023@gmail.com</td>
-        </tr>
-        <tr>
-          <td><i class="fa fa-map-marker" aria-hidden="true"></i></td>
-          <td>UTM, Skudai, Johor</td>
-        </tr>
-      </table>
+  </div>
+</section>
 
 
-    </div>
-  </section>
   <script>
     
   </script>

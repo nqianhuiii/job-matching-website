@@ -1,6 +1,6 @@
 <?php
 
-    include("connectdb.php");
+    include("../database/connectdb.php");
 
     mysqli_select_db($con, "jjwq");
 
@@ -20,7 +20,13 @@
         $encryptedPassword= sha1($_POST['password']. $salt);
 
         if($storedPassword === $encryptedPassword){
-            header("location:../main.php");
+            session_start(); // Start the session
+
+            // Set session variables
+            $_SESSION['userID'] = $user['userID'];
+            $_SESSION['email'] = $user['email'];
+
+            header("location:../main_session.php");
             exit();
         }
 
