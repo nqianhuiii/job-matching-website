@@ -5,7 +5,7 @@ if (!$con) {
     die('Could not connect: ' . mysqli_connect_error());
 
 }
-if (mysqli_query($con,"CREATE DATABASE jjwq")) {
+if (mysqli_query($con,"CREATE DATABASE jjwq_jmp")) {
 
     echo "Database created";
 
