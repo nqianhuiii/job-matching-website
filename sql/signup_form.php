@@ -16,6 +16,6 @@
 
     mysqli_close($con);
 
-    header("location: ../main.php");
+    header("location: ../main_session.php");
     exit();
 ?>

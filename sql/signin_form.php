@@ -28,7 +28,11 @@
 
             header("location:../main_session.php");
             exit();
+        }else{
+            // Credentials not found, redirect with query parameter
+            header("location:../signin.php?invalid=true");
         }
+
 
     }
 

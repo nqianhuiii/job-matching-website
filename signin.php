@@ -33,6 +33,17 @@
             <button class="btn btn-outline-secondary ml-auto" type="button" onclick= "window.location.href='signup.php'">Sign Up</button>
         </div>   
     </nav>
+
+    <!-- to display pop-up box if have -->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const invalidCredentials = urlParams.get('invalid');
+
+        if (invalidCredentials === 'true') {
+            alert('Invalid credentials. Please try again.');
+        }
+    </script>
+
     <div class="container">
     <div class="row justify-content-center mt-5">
         <div class="col-md-6">
