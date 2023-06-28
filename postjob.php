@@ -56,7 +56,7 @@ if (isset($_GET['employerID'])) {
       <a class="nav-item nav-link active" href="about.php">About</a>
       <a class="nav-item nav-link " href="contact.php">Contact</a>
     </div>
-    <button class="btn btn-outline-secondary ml-auto" type="button">Sign Up</button>
+    <button class="btn btn-primary ml-auto" onclick="window.location.href='main_session.php'" >Back</button>
   </nav>
   <section class="main">
     <div class="container">

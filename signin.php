@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>JJWQ | Job Matching Platform</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="/image/icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="image/icon.png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,12 +14,12 @@
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/4.7.0/css/bootstrap-combined.no-icons.min.css"
         rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">    
-    <link rel= "stylesheet" href= "css/signup.css";>
+    <link rel= "stylesheet" href= "css/signup.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">
-        <img src="/image/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        <img src="image/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
         Job Finder
         </a>
         <div class="navbar-nav">
@@ -49,9 +49,9 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <form action="sql/signin_form.php" method="POST">
+                    <form action="database/signin_form.php" method="POST">
                         <div>
-                            <h4>Candidate Sign In</h4>
+                            <h4>Sign In</h4>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>

@@ -11,39 +11,69 @@ $linkedin = $_POST['linkedin'];
 $github = $_POST['github'];
 
 // Database connection
-$conn = new mysqli("localhost", "root", "","jjwq");
+$conn = new mysqli("localhost", "root", "jkty12138", "jjwq_jmp");
 if ($conn->connect_error) {
     echo "Connection failed: " . $conn->connect_error;
     exit;
 } else {
+    try {
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-    // Get the current maximum jobseeker_id from the jobseeker table
-    $maxJobseekerIdQuery = "SELECT MAX(jobseeker_id) AS max_jobseeker_id FROM jobseeker";
-    $maxJobseekerIdResult = $conn->query($maxJobseekerIdQuery);
-    $maxJobseekerIdRow = $maxJobseekerIdResult->fetch_assoc();
-    $maxJobseekerId = $maxJobseekerIdRow['max_jobseeker_id'];
+        // Start the session
+        session_start();
 
-    // Increment the jobseeker_id by 1
-    $jobseekerId = $maxJobseekerId;
+        // Check if the user is logged in
+        if (isset($_SESSION['userID'])) {
+            $userID = $_SESSION['userID'];
 
+            // Check if the user's profile already exists in the database
+            $existingProfileQuery = "SELECT * FROM profile WHERE userID = $userID";
+            $existingProfileResult = mysqli_query($conn, $existingProfileQuery);
 
+            if (!$existingProfileResult) {
+                echo "Error executing the query: " . mysqli_error($conn);
+                exit;
+            }
 
-    // Prepare the insert statement for the profile table
-    $stmt = $conn->prepare("INSERT INTO profile (jobseeker_id, fullName, nationality, residentialStatus, status, specialization, facebook, instagram, linkedin, github) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("isssssssss", $jobseekerId, $fullName, $nationality, $residentialStatus, $status, $specialization, $facebook, $instagram, $linkedin, $github);
+            if (mysqli_num_rows($existingProfileResult) > 0) {
+                // User's profile already exists, perform an update
 
-    if ($stmt->execute()) {
-        echo "Registration successful.";
-    } else {
-        echo "Error: " . $stmt->error;
+                // Prepare the update statement for the profile table
+                $stmt = $conn->prepare("UPDATE profile SET fullName = ?, nationality = ?, residentialStatus = ?, status = ?, specialization = ?, facebook = ?, instagram = ?, linkedin = ?, github = ? WHERE userID = ?");
+                $stmt->bind_param("sssssssssi", $fullName, $nationality, $residentialStatus, $status, $specialization, $facebook, $instagram, $linkedin, $github, $userID);
+
+                if ($stmt->execute()) {
+                    echo "Profile updated successfully.";
+                } else {
+                    echo "Error: " . $stmt->error;
+                }
+
+                // Close the statement
+                $stmt->close();
+            } else {
+                // User profile does not exist, insert a new row
+                $insertQuery = "INSERT INTO profile (userID, fullName, nationality, residentialStatus, status, specialization, facebook, instagram, linkedin, github) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($insertQuery);
+                $stmt->bind_param("isssssssss", $userID, $fullName, $nationality, $residentialStatus, $status, $specialization, $facebook, $instagram, $linkedin, $github);
+
+                if ($stmt->execute()) {
+                    echo "New profile created successfully.";
+                } else {
+                    echo "Error: " . $stmt->error;
+                }
+
+                // Close the statement
+                $stmt->close();
+            }
+        } else {
+            echo "User not logged in.";
+        }
+
+        // Close the database connection
+        $conn->close();
+        header("Location: ../display.php");
+    } catch (mysqli_sql_exception $e) {
+        echo "Error: " . $e->getMessage();
     }
-
-    // Close the statement
-    $stmt->close();
-
-
-    // Close the database connection
-    $conn->close();
-    header("Location: main.php");
 }
 ?>

@@ -13,7 +13,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;1,100;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
-
 </head>
 <body>
     <!--Add nav bar to every page, exp: sign up&login-->
@@ -23,14 +22,37 @@
             Job Finder
         </a>
             <div class="navbar-nav">
-              <a class="nav-item nav-link active" href="main.php">Home </a>
-              <a class="nav-item nav-link" href="#">Find A Job</a>
-              <a class="nav-item nav-link" href="#">Status</a>
+              <a class="nav-item nav-link active" href="main_session.php">Home </a>
+              <a class="nav-item nav-link" href="findAjob.php"
+              <?php if ($_SESSION['type'] != 1) { 
+            echo "style='display: none;'"; 
+            } ?> 
+              >Find A Job</a>
               <a class="nav-item nav-link" href="about.php">About</a>
               <a class="nav-item nav-link" href="contact.php">Contact</a>        
             </div>
-        <button class="btn btn-outline-secondary ml-auto mr-2" type="button" onclick="window.location.href='employer_signup.php'">Employer</button>    
-        <button class="btn btn-outline-secondary" type="button" onclick="window.location.href='sign_out.php'">Sign Out</button>
+
+        <button class="btn btn-outline-secondary ml-auto mr-2" type="button"
+        <?php if ($_SESSION['type'] != 1) { 
+            echo "style='display: none;'"; 
+            } ?>  
+        onclick="window.location.href='employer_signup.php'">Register as Employer</button>
+
+       <button class="btn btn-outline-secondary ml-auto mr-2" type="button" onclick="window.location.href='signout.php'">Sign Out</button> 
+
+        <!-- Employer profile -->
+        <button class="btn btn-outline-secondary " type="button"
+        <?php if ($_SESSION['type'] != 2) { 
+            echo "style='display: none;'"; 
+            } ?>  
+        onclick="window.location.href='employer.php?employerID=<?php echo $_SESSION['userID']; ?>'">Profile</button>
+
+         <!-- Candidate profile -->
+        <button class="btn btn-outline-secondary ml-auto mr-2" type="button"
+        <?php if ($_SESSION['type'] != 1) { 
+            echo "style='display: none;'"; 
+            } ?>  
+        onclick="window.location.href='display.php'">Profile</button>
     </nav>
 
     <div class="mainIntro">

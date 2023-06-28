@@ -27,7 +27,7 @@ if (mysqli_num_rows($result) > 0) {
 
     // Fetch user details from the 'user' table
     $userID = 1; // Assuming you have a specific user ID to retrieve the details
-    $userSql = "SELECT username, email, contactNo FROM user WHERE userID = '$userID'";
+    $userSql = "SELECT username, email, contactNo FROM user WHERE userID = '$employerID'";
     $userResult = mysqli_query($con, $userSql);
 
     if (!$userResult) {
@@ -67,7 +67,7 @@ mysqli_close($con);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-xr7kw9MYXcvCkA4Di9vxeQRTeNPf2Gxlckv3Y/ksRo3bh2HGG1gIeVKb4b1rIvPkJpF1rDHyZMxQMXgmfjS0iw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/linkedin.css">
+    <link rel="stylesheet" href="css/employer.css">
 </head>
 
 <body>
@@ -83,12 +83,13 @@ mysqli_close($con);
     <div class="container update-container">
         <div class="row justify-content-center">
             <div class="col-md-6">
+                <br>
                 <div class="card">
                     <div class="card-header">
                         <h4>Update Employer Details</h4>
                     </div>
                     <div class="card-body">
-                        <form action="update_process.php" method="POST">
+                        <form action="database/update_process.php" method="POST">
                             <input type="hidden" name="employerID" value="<?php echo $employerID; ?>">
 
                             <div class="form-group">

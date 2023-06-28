@@ -1,8 +1,54 @@
+<?php
+// Start the session
+session_start();
+
+// Database connection
+$conn = new mysqli("localhost", "root", "jkty12138", "jjwq_jmp");
+if ($conn->connect_error) {
+    echo "Connection failed: " . $conn->connect_error;
+    exit;
+}
+
+// Check if the user is logged in
+if (isset($_SESSION['userID'])) {
+    $userID = $_SESSION['userID'];
+
+    // Fetch the user's profile data from the database
+    $profileQuery = "SELECT * FROM profile WHERE jobSeekerID = $userID";
+    $profileResult = mysqli_query($conn, $profileQuery);
+
+    if (!$profileResult) {
+        die("Error executing the query: " . mysqli_error($conn));
+    }
+
+    $profileData = mysqli_fetch_assoc($profileResult);
+}
+
+// Close the database connection
+mysqli_close($conn);
+?>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>LinkedIn Profile</title>
+    <title>JJWQ | Job Matching Platform</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./image/icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./image/icon.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;1,100;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;1,100;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
 </head>
 
@@ -151,75 +197,64 @@
 </style>
 
 <body>
-    <header>
-        <div class="container">
-            <h1>Create your own profile</h1>
-        </div>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="./image/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Job Finder
+        </a>
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="main_session.php">Home </a>
+            <center>
+                <button class="btn btn-outline-secondary" onclick="window.location.href='display.php'">Display
+                    Profile</button>
+            </center>
 
-    <div class="profile-section">
-        <div class="container">
-            <form action="images_database.php" method="POST" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="imageInput">Select Image:</label>
-                    <input type="file" id="imageInput" name="image">
-                </div>
-                <div class="form-group">
-                    <label for="imageTextInput">Describe yourself:</label>
-                    <textarea name="image_text" id="imageTextInput" cols="40" rows="4"
-                        placeholder="Enter your bio(less than 4 words)"></textarea>
-                </div>
-                <div class="form-group">
-                    <button type="submit" name="upload">Upload</button>
-                </div>
-            </form>
         </div>
-    </div>
-
+    </nav>
 
     <div class="form-section">
         <div class="container">
             <h2>Edit Profile:</h2>
-            <form action="profile_database.php" method="POST">
+            <form action="database/profile_database.php" method="POST">
                 <div class="about_section">
                     <div class="form-group">
                         <label for="fullNameInput">Full Name:</label>
-                        <input type="text" id="fullNameInput" name="fullName">
+                        <input type="text" id="fullNameInput" name="fullName" value="<?php echo isset($profileData['fullName']) ? $profileData['fullName'] : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label for="nationalityInput">Nationality:</label>
-                        <input type="text" id="nationalityInput" name="nationality">
+                        <input type="text" id="nationalityInput" name="nationality" value="<?php echo isset($profileData['nationality']) ? $profileData['nationality'] : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label for="residentialStatusInput">Residential Status:</label>
-                        <input type="text" id="residentialStatusInput" name="residentialStatus">
+                        <input type="text" id="residentialStatusInput" name="residentialStatus" value="<?php echo isset($profileData['residentialStatus']) ? $profileData['residentialStatus'] : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label for="statusInput">Status:</label>
-                        <input type="text" id="statusInput" name="status">
+                        <input type="text" id="statusInput" name="status" value="<?php echo isset($profileData['status']) ? $profileData['status'] : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label for="specializationInput">Specialization:</label>
-                        <input type="text" id="specializationInput" name="specialization">
+                        <input type="text" id="specializationInput" name="specialization" value="<?php echo isset($profileData['specialization']) ? $profileData['specialization'] : ''; ?>">
                     </div>
                 </div>
 
                 <div class="social_section">
                     <div class="form-group">
                         <label for="facebookInput">Facebook:</label>
-                        <input type="text" id="facebookInput" name="facebook">
+                        <input type="text" id="facebookInput" name="facebook" value="<?php echo isset($profileData['facebook']) ? $profileData['facebook'] : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label for="instagramInput">Instagram:</label>
-                        <input type="text" id="instagramInput" name="instagram">
+                        <input type="text" id="instagramInput" name="instagram" value="<?php echo isset($profileData['instagram']) ? $profileData['instagram'] : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label for="linkedinInput">LinkedIn:</label>
-                        <input type="text" id="linkedinInput" name="linkedin">
+                        <input type="text" id="linkedinInput" name="linkedin" value="<?php echo isset($profileData['linkedin']) ? $profileData['linkedin'] : ''; ?>">
                     </div>
                     <div class="form-group">
                         <label for="githubInput">GitHub:</label>
-                        <input type="text" id="githubInput" name="github">
+                        <input type="text" id="githubInput" name="github" value="<?php echo isset($profileData['github']) ? $profileData['github'] : ''; ?>">
                     </div>
                 </div>
 
@@ -231,23 +266,9 @@
             <hr>
             </hr>
 
-            <div class="container">
-                <div class="button-group">
-                    <a href="experience.php"><button>Experience</button></a>
-                    <a href="education.php"><button>Education</button></a>
-                    <a href="display.php"><button>Display Profile</button></a>
-                </div>
-            </div>
-
         </div>
     </div>
 
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2023 My Profile. All rights reserved.</p>
-        </div>
-    </footer>
 
 </body>
 

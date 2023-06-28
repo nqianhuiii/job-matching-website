@@ -15,7 +15,7 @@ if (!$con) {
     die('Could not connect: ' . mysqli_connect_error());
 }
 
-$sql = "SELECT companyName, industryType FROM employer WHERE employerID = '$employerID'";
+$sql = "SELECT companyName, industryType, profilePicture FROM employer WHERE employerID = '$employerID'";
 $result = mysqli_query($con, $sql);
 
 if (!$result) {
@@ -27,6 +27,7 @@ if (mysqli_num_rows($result) > 0) {
     $row = mysqli_fetch_assoc($result);
     $companyName = $row["companyName"];
     $industryType = $row["industryType"];
+    $profilePicture = $row["profilePicture"];
 } else {
     // Employer details not found, handle the error or redirect to an appropriate page
     die("Employer not found");
@@ -46,9 +47,25 @@ if (mysqli_num_rows($userResult) > 0) {
     $userRow = mysqli_fetch_assoc($userResult);
     $username = $userRow["username"];
     $contactNo = $userRow["contactNo"];
-}else{
+} else {
     $username = "N/A";
     $contactNo = "N/A";
+}
+if (isset($_FILES['profilePicture']) && $_FILES['profilePicture']['error'] === UPLOAD_ERR_OK) {
+    $tempName = $_FILES['profilePicture']['tmp_name'];
+    $fileName = $_FILES['profilePicture']['name'];
+
+    // Move the uploaded file to the desired location
+    move_uploaded_file($tempName, "profile-pictures/" . $fileName);
+    $profilePicture = "profile-pictures/" . $fileName;
+
+    // Update the profile picture path in the database
+    $updateSql = "UPDATE employer SET profilePicture = '$profilePicture' WHERE employerID = '$employerID'";
+    $updateResult = mysqli_query($con, $updateSql);
+
+    if (!$updateResult) {
+        die('Query Error: ' . mysqli_error($con));
+    }
 }
 
 mysqli_close($con);
@@ -70,6 +87,7 @@ mysqli_close($con);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         integrity="sha512-xr7kw9MYXcvCkA4Di9vxeQRTeNPf2Gxlckv3Y/ksRo3bh2HGG1gIeVKb4b1rIvPkJpF1rDHyZMxQMXgmfjS0iw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="css/employer.css">
     <script>
         // Function to update the label text with the selected file path
@@ -93,6 +111,8 @@ mysqli_close($con);
                 Job Finder
             </a>
         </div>
+        <button class="btn btn-primary" onclick="window.location.href='main_session.php'">Back</button>
+        <span>&nbsp;</span>
         <a href="postjob.php?employerID=<?php echo $employerID; ?>" class="btn btn-success">Post Job</a>
     </header>
 
@@ -102,17 +122,9 @@ mysqli_close($con);
                 <div class="profile-sidebar">
                     <div class="profile-picture">
                         <?php
-                        $profilePicture = "image/profile-picture.jpg"; // Path to the default profile picture
-                        
-                        // Check if the user has uploaded a profile picture
-                        if (isset($_FILES['profilePicture']) && $_FILES['profilePicture']['error'] === UPLOAD_ERR_OK) {
-                            $tempName = $_FILES['profilePicture']['tmp_name'];
-                            $fileName = $_FILES['profilePicture']['name'];
-
-                            // Move the uploaded file to the desired location
-                            move_uploaded_file($tempName, "profile-pictures/" . $fileName);
-                            $profilePicture = "profile-pictures/" . $fileName;
-                        }
+                        $defaultProfilePicture = "image/profile-picture.jpg"; // Path to the default profile picture
+                        // Use the profile picture path from the database if available
+                        $profilePicture = $profilePicture ?? $defaultProfilePicture;
                         ?>
 
                         <img src="<?php echo $profilePicture; ?>" alt="Profile Picture">
@@ -144,9 +156,15 @@ mysqli_close($con);
                             <a href="manage_posts_job.php?employerID=<?php echo $employerID; ?>"
                                 class="btn btn-primary">Manage Post Jobs</a>
                         </div>
+
+
                     </div>
+
                 </div>
+                <br>
+
             </div>
+
             <div class="col-md-9">
                 <div class="profile-content">
                     <h1>User Details</h1>
@@ -157,9 +175,86 @@ mysqli_close($con);
                         <?php echo $industryType; ?>
                     </p>
                 </div>
-                <a href="update_employer.php?employerID=<?php echo $employerID; ?>"
-                                class="btn btn-primary"  style="text-align:center;">Update Profile</a>
+                <br>
+
+                <a href="update_employer.php?employerID=<?php echo $employerID; ?>" class="btn btn-primary"
+                    style="text-align:center;">Update Profile</a>
+
+                <?php
+                include('database/connectdb.php');
+                $sql = "SELECT * FROM applications WHERE employerID = '$employerID'";
+                $result = mysqli_query($con, $sql);
+
+                // Check if any job posts were found
+                if ($result->num_rows > 0) {
+                    // Job posts found, display them in a table
+                    echo "<div class='main'>";
+                    echo "<div class='container'>";
+                    echo "<h1 class='heading'>Applications</h1>";
+                    echo "<div class='table-container'>";
+                    echo "<table border='1px solid black'>";
+                    echo "<thead><tr><th style='padding:10px' width='20%'>Job Title</th><th style='padding:10px'>Full Name</th>
+                    <th style='padding:10px'>Facebook</th>
+                    <th style='padding:10px'>Instagram</th>
+                    <th style='padding:10px'>LinkedIn</th>
+                    <th style='padding:10px'>GitHub</th>
+                    <th style='padding:10px'>Contact Number</th>
+                    </tr></thead>";
+                    echo "<tbody>";
+
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $postID = $row["postID"];
+                        $jobSeekerID = $row["jobSeekerID"];
+
+                        // Retrieve fullName from user table based on jobSeekerID
+                        $userQuery = "SELECT fullName,facebook,instagram,linkedin,github FROM profile WHERE userID = '$jobSeekerID'";
+                        $userQuery1 = "SELECT contactNo FROM user WHERE userID = '$jobSeekerID'";
+                        $userQuery2 = "SELECT jobTitle FROM postjobs WHERE postID = '$postID'";
+                        $userResult = mysqli_query($con, $userQuery);
+                        $userResult1 = mysqli_query($con, $userQuery1);
+                        $userResult2 = mysqli_query($con, $userQuery2);
+
+                        if ($userResult && mysqli_num_rows($userResult) > 0) {
+                            $userRow = mysqli_fetch_assoc($userResult);
+                            $userRow1 = mysqli_fetch_assoc($userResult1);
+                            $userRow2 = mysqli_fetch_assoc($userResult2);
+                            $jobTitle = $userRow2["jobTitle"];
+                            $fullName = $userRow["fullName"];
+                            $facebook = $userRow["facebook"];
+                            $instagram = $userRow["instagram"];
+                            $linkedin = $userRow["linkedin"];
+                            $github = $userRow["github"];
+                            $contactNo = $userRow1["contactNo"];
+                        }
+
+                        echo "<tr>";
+                        echo "<td align='center'>$jobTitle</td>";
+                        echo "<td align='center'>$fullName</td>";
+                        echo "<td align='center'>$facebook</td>";
+                        echo "<td align='center'>$instagram</td>";
+                        echo "<td align='center'>$linkedin</td>";
+                        echo "<td align='center'>$github</td>";
+                        echo "<td align='center'>$contactNo</td>";
+                        echo "</tr>";
+                    }
+                    echo "</tbody>";
+                    echo "</table>";
+                    echo "</div>";
+                    echo "</div>";
+                    echo "</div>";
+                } else {
+                    // No job posts found
+                    echo "<div class='main'>";
+                    echo "<div class='container'>";
+                    echo "<h1 class='heading'>Applications</h1>";
+                    echo "<p>No applications found.</p>";
+                    echo "</div>";
+                    echo "</div>";
+                }
+                ?>
+
             </div>
+
         </div>
     </div>
 

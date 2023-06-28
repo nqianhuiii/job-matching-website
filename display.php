@@ -40,6 +40,20 @@ $expectationQuery = "SELECT * FROM expectation WHERE jobseeker_id = $maxJobseeke
 $expectationResult = mysqli_query($conn, $expectationQuery);
 $expectData = mysqli_fetch_assoc($expectationResult);
 
+$userID = $_SESSION['userID'];
+$profileQuery = "SELECT * FROM profile WHERE userID = $userID";
+$profileResult = mysqli_query($conn, $profileQuery);
+
+if (!$profileResult) {
+    die("Error executing the query: " . mysqli_error($conn));
+}
+
+if (mysqli_num_rows($profileResult) > 0) {
+    $profileData = mysqli_fetch_assoc($profileResult);
+} else {
+    // No data found
+    $profileData = false;
+}
 
 // Close the database connection
 mysqli_close($conn);
@@ -50,7 +64,26 @@ mysqli_close($conn);
 <html>
 
 <head>
-    <title>LinkedIn Profile</title>
+    <title>JJWQ | Job Matching Platform</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="./image/icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./image/icon.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;1,100;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,700;0,800;1,100;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+
 
 </head>
 
@@ -112,73 +145,6 @@ mysqli_close($conn);
         margin-bottom: 10px;
     }
 
-    .education-section {
-        background-color: #fff;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .education-section h3 {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-
-    .education-section ul {
-        list-style-type: disc;
-        padding-left: 20px;
-    }
-
-    .education-section li {
-        font-size: 16px;
-        color: #555;
-        margin-bottom: 10px;
-    }
-
-    .education-section li strong {
-        font-weight: bold;
-    }
-
-    .experience-section {
-        background-color: #fff;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .experience-section h3 {
-        font-size: 20px;
-        margin-bottom: 10px;
-    }
-
-    .experience-section ul {
-        list-style-type: disc;
-        padding-left: 20px;
-    }
-
-    .experience-section li {
-        font-size: 16px;
-        color: #555;
-        margin-bottom: 10px;
-    }
-
-    .experience-section li strong {
-        font-weight: bold;
-    }
-
-
-
-    footer {
-        background-color: #283E4A;
-        color: #fff;
-        padding: 10px;
-        text-align: center;
-    }
-
-    footer p {
-        font-size: 14px;
-    }
-
     .image-section {
         text-align: center;
         margin-bottom: 20px;
@@ -231,220 +197,85 @@ mysqli_close($conn);
         outline: none;
         text-decoration: underline;
     }
-
-    .expectation-section {
-        background-color: #fff;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .expectation-section p {
-        font-size: 16px;
-        color: #777;
-        margin-bottom: 10px;
-    }
-
-    .expectation-section p strong {
-        font-weight: bold;
-    }
 </style>
 
 <body>
-    <header>
-        <h1>My Profile</h1>
-    </header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+            <img src="./image/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            Job Finder
+        </a>
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="main_session.php">Home </a>
+
+        </div>
+    </nav>
+
+    <br>
+
 
     <div class="container">
         <div class="image-section">
-            <img src="<?php echo $imageUrl; ?>" alt="Profile Image">
-            <p>
-                <?php echo $imageRow['image_text']; ?>
-            </p>
+            <img src="image/profile-picture.jpg" alt="Profile Image">
         </div>
 
         <div class="profile-section">
+            <center>
+                <button class="btn btn-outline-secondary" onclick="window.location.href='user_form.php'">
+                    Edit
+                    Profile</button>
+            </center>
             <h1>Introduction</h1>
             <br>
             <p>
-                Name:<strong>
-                    <?php echo $profileData['fullName']; ?>
+                Name: <strong>
+                    <?php echo isset($profileData['fullName']) ? $profileData['fullName'] : 'No data'; ?>
                 </strong>
             </p>
             <p>
-                Nationality:<strong>
-                    <?php echo $profileData['nationality']; ?>
+                Nationality: <strong>
+                    <?php echo isset($profileData['nationality']) ? $profileData['nationality'] : 'No data'; ?>
                 </strong>
             </p>
             <p>
-                ResidentialStatus:<strong>
-                    <?php echo $profileData['residentialStatus']; ?>
+                ResidentialStatus: <strong>
+                    <?php echo isset($profileData['residentialStatus']) ? $profileData['residentialStatus'] : 'No data'; ?>
                 </strong>
             </p>
             <p>
-                Status:<strong>
-                    <?php echo $profileData['status']; ?>
+                Status: <strong>
+                    <?php echo isset($profileData['status']) ? $profileData['status'] : 'No data'; ?>
                 </strong>
             </p>
             <p>
-                Specialization:<strong>
-                    <?php echo $profileData['specialization']; ?>
+                Specialization: <strong>
+                    <?php echo isset($profileData['specialization']) ? $profileData['specialization'] : 'No data'; ?>
                 </strong>
             </p>
             <p>
-                Facebook:<strong>
-                    <?php echo $profileData['facebook']; ?>
+                Facebook: <strong>
+                    <?php echo isset($profileData['facebook']) ? $profileData['facebook'] : 'No data'; ?>
                 </strong>
             </p>
             <p>
-                Instagram:<strong>
-                    <?php echo $profileData['instagram']; ?>
+                Instagram: <strong>
+                    <?php echo isset($profileData['instagram']) ? $profileData['instagram'] : 'No data'; ?>
                 </strong>
             </p>
             <p>
-                LinkedIn:<strong>
-                    <?php echo $profileData['linkedin']; ?>
+                LinkedIn: <strong>
+                    <?php echo isset($profileData['linkedin']) ? $profileData['linkedin'] : 'No data'; ?>
                 </strong>
             </p>
             <p>
-                Git hub:<strong>
-                    <?php echo $profileData['github']; ?>
+                GitHub: <strong>
+                    <?php echo isset($profileData['github']) ? $profileData['github'] : 'No data'; ?>
                 </strong>
             </p>
         </div>
-
-
-        <div class="education-section">
-            <?php
-
-            $educationSql = "SELECT * FROM education WHERE jobseeker_id = $maxJobseekerId";
-
-
-
-            if ($educationResult->num_rows > 0) {
-
-                echo "<h2>Education</h2>";
-                echo "</br>";
-
-                while ($educationRow = $educationResult->fetch_assoc()) {
-                    $institution = $educationRow['institution'];
-                    $qualification = $educationRow['qualification'];
-                    $field = $educationRow['field'];
-                    $graduation = $educationRow['graduation'];
-
-                    echo "<li class='hidden'>";
-                    echo "<strong>Institution:</strong> $institution<br>";
-                    echo "<strong>Qualification:</strong> $qualification<br>";
-                    echo "<strong>Field:</strong> $field<br>";
-                    echo "<strong>Graduation:</strong> $graduation<br>";
-                    echo "</li>";
-
-
-
-                }
-
-
-
-            }
-            ?>
-            <button id="toggleButton">Click to see</button>
-
-        </div>
-
-        <div class="experience-section">
-            <?php
-            $educationSql = "SELECT * FROM experience WHERE jobseeker_id = $maxJobseekerId";
-
-
-            if ($experienceResult->num_rows > 0) {
-                echo "<h2>Experience</h2>";
-                echo "</br>";
-
-                while ($experienceRow = $experienceResult->fetch_assoc()) {
-                    $jobTitle = $experienceRow['jobTitle'];
-                    $company = $experienceRow['company'];
-                    $description = $experienceRow['description'];
-                    $startyear = $experienceRow['startyear'];
-                    $endyear = $experienceRow['endyear'];
-
-                    echo "<li class='hidden1'>";
-                    echo "<strong>Job Title:</strong>  $jobTitle<br>";
-                    echo "<strong>Company:</strong>  $company<br>";
-                    echo "<strong>Description:</strong>  $description<br>";
-                    echo "<strong>Start year:</strong>  $startyear<br>";
-                    echo "<strong>End year:</strong>  $endyear<br>";
-
-
-                    echo "</li>";
-
-
-
-                }
-
-
-
-            }
-            ?>
-            <button id="toggle1Button">Click to see</button>
-
-        </div>
-
-        <div class="expectation-section">
-            <h1>Expectation</h1>
-            <br>
-            <p>
-                Salary:<strong>
-                    <?php echo $expectData['salary']; ?>
-                </strong>
-            </p>
-            <p>
-                Location:<strong>
-                    <?php echo $expectData['location']; ?>
-                </strong>
-            </p>
-        </div>
-
 
 
     </div>
-
-    <footer>
-        <p>&copy; 2023 MyProfile. All rights reserved.</p>
-    </footer>
-    <script>
-
-        const toggleButton = document.getElementById('toggleButton');
-        const educationItems = document.querySelectorAll('.education-section li');
-
-        toggleButton.addEventListener('click', function () {
-            educationItems.forEach(function (item) {
-                item.classList.toggle('hidden');
-            });
-
-            if (toggleButton.textContent === 'Click to see') {
-                toggleButton.textContent = 'Click to close';
-            } else {
-                toggleButton.textContent = 'Click to see';
-            }
-        });
-
-        const toggle1Button = document.getElementById('toggle1Button');
-        const experienceItems = document.querySelectorAll('.experience-section li');
-
-        toggle1Button.addEventListener('click', function () {
-            experienceItems.forEach(function (item1) {
-                item1.classList.toggle('hidden1');
-            });
-
-            if (toggle1Button.textContent === 'Click to see') {
-                toggle1Button.textContent = 'Click to close';
-            } else {
-                toggle1Button.textContent = 'Click to see';
-            }
-        });
-
-
-    </script>
 
 </body>
 

@@ -20,8 +20,9 @@ if (isset($_POST["userID"], $_POST["companyName"], $_POST["industryType"])) {
 
     // Insert employer details into the database
     $sql = "INSERT INTO employer (userID, companyName, industryType) VALUES ('$userID', '$companyName', '$industryType')";
-
-    if (mysqli_query($con, $sql)) {
+    $sql2 = "UPDATE user SET type = 2 WHERE userID = '$userID'";
+    mysqli_query($con, $sql2);
+    if  (mysqli_query($con, $sql)) {
         // Get the employer ID of the newly inserted record
         $employerID = mysqli_insert_id($con);
 
@@ -54,7 +55,7 @@ mysqli_close($con);
   <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/4.7.0/css/bootstrap-combined.no-icons.min.css"
     rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
-  <link rel="stylesheet" href="./css/employer_signup.css">
+  <link rel="stylesheet" href="css/employer_signup.css">
 
 </head>
 
@@ -66,7 +67,7 @@ mysqli_close($con);
       Job Finder
     </a>
     <div class="navbar-nav ml-auto">
-        <button class="btn btn-outline-secondary ml-auto" type="button" onclick= "window.location.href='sign_out.php'">Sign Out</button>
+        <button class="btn btn-outline-secondary ml-auto" type="button" onclick= "window.location.href='signout.php'">Sign Out</button>
     </div>
   </nav>
 
