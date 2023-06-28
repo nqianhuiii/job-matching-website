@@ -1,3 +1,8 @@
+<?php
+
+session_start();
+?>
+
 <html lang="en">
 
 <head>
@@ -14,7 +19,6 @@
         rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/about.css">
-
 </head>
 
 <body>

@@ -14,6 +14,8 @@
         die('Error'.mysqli_connect_error());
     }
 
+    //if username or/and email is/are repeated 
+
     mysqli_close($con);
 
     header("location: ../main_session.php");
